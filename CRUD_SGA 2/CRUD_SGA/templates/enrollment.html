@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: rgba(0, 77, 64, 0.7);
+        color: white; 
+    }
+    
+    table thead th {
+        color: white; 
+    }
+    
+    .btn-primary {
+        background-color: #206156; 
+        border-color: #b3b4b4;
+        color: white;
+    }
+
+    .btn-warning {
+        background-color: #ffc107; 
+        border-color: #ffc107; 
+        color: black; 
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545; 
+        color: white;
+    }
+</style>
+
+    <h2>Gestión de Matrículas</h2>
+    <p>
+    <a href="{{ url_for('new_enrollment') }}" class="btn btn-primary">Nueva Matrícula</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Estudiante</th>
+                <th>Curso</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for enrollment in enrollments %}
+                <tr>
+                    <td>{{ enrollment.id }}</td>
+                    <td>{{ enrollment.student_name }}</td>
+                    <td>{{ enrollment.course_name }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_enrollment', id=enrollment.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

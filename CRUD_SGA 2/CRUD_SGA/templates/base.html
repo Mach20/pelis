@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Académica</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+
+    <style>
+        body {
+            color: #333; /* Gris oscuro para el texto */
+            background-color: #f0f9f9; /* Gris muy claro para el fondo */
+        }
+
+        /* Estilo para la barra de navegación */
+        .navbar {
+            background-color: #2a7472f2; /* Verde agua con un poco de transparencia */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Línea sutil en la parte inferior */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px; /* Espacio entre el logo y el texto */
+        }
+
+        .navbar-title {
+            font-size: 1.2rem; /* Ajusta el tamaño del texto */
+            font-weight: bold; /* Negrita */
+            color: #fff; /* Color blanco para el texto */
+            text-align: center;
+        }
+
+        .navbar-title .gestion-academica {
+            border-bottom: 2px solid #fff; /* Borde inferior solo para Gestión Académica */
+        }
+
+        .navbar-title .intesud {
+            color: #f7fbfb; /* Color para INTESUD */
+            font-weight: normal; /* Ajuste para diferenciarlos visualmente */
+        }
+
+        .nav-link {
+            color: #fff !important; /* Color blanco para los enlaces */
+            margin: 0 11px; /* Espacio entre los enlaces */
+            font-size: 1.1rem; /* Tamaño del texto */
+            padding: 10px 15px; /* Padding para aumentar el área clicable */
+            border-radius: 5px; /* Bordes redondeados */
+            transition: background-color 0.3s ease, border-bottom 0.3s ease; /* Transición suave en el hover */
+            border-bottom: 2px solid transparent; /* Borde inferior transparente por defecto */
+        }
+
+        .nav-link:hover {
+            background-color: #1d768225 !important; /* Verde más oscuro en hover */
+            border-bottom: 2px solid #fff; /* Borde inferior blanco al hacer hover */
+        }
+
+        .nav-link.logout-link {
+            background-color: #004d40; /* Verde oscuro */
+            color: #fff !important; /* Texto blanco */
+        }
+
+        .nav-link.logout-link:hover {
+            background-color: #00251a; /* Verde más oscuro en hover */
+        }
+    </style>
+</head>
+<body>
+    {% if 'logged_in' in session %}
+    <!-- Mostrar la barra de navegación solo si el usuario ha iniciado sesión -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <!-- Logo y texto alineados a la izquierda -->
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+            <span class="navbar-title">
+                <span class="gestion-academica">Gestión Académica</span> <br>
+                <span class="intesud">INTESUD</span>
+            </span>
+        </a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('dashboard') }}"><strong>Panel de Control</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('list_students') }}"><strong>Estudiantes</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('list_professors') }}"><strong>Profesores</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('list_courses') }}"><strong>Cursos</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('list_enrollments') }}"><strong>Matrículas</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link logout-link" href="{{ url_for('logout') }}"><strong>Cerrar sesión</strong></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+    
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

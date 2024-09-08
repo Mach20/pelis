@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: rgba(0, 77, 64, 0.7);
+        color: white; 
+    }
+
+    .form-container {
+        background-color: rgba(0, 77, 64, 0.9);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 500px; /* Ajustado para mayor tamaño */
+        margin: 0 auto; /* Centra el contenedor */
+    }
+
+    .form-group label {
+        color: white;
+    }
+
+    .form-control {
+        background-color: transparent;
+        border: 1px solid #ffffff; /* Borde delgado blanco */
+        border-radius: 5px;
+        color: white;
+        padding: 8px 12px; /* Ajusta el padding para mayor control del tamaño del campo */
+    }
+
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: none;
+    }
+
+    .btn-primary {
+        background-color: #237758; 
+        border-color: #b3b4b4;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #5a5a5a;
+    }
+
+    .btn-warning {
+        background-color: #ffc107; 
+        border-color: #ffc107; 
+        color: black; 
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+</style>
+
+<div class="form-container">
+    <h2 class="text-center">{% if course %}Editar Curso{% else %}Nuevo Curso{% endif %}</h2>
+
+    <form action="{{ url_for('edit_course', id=course.id) if course else url_for('new_course') }}" method="POST">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" placeholder="Ingrese el nombre del curso" class="form-control" value="{{ course.name if course else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description" placeholder="Ingrese una descripción" class="form-control" rows="4" required>{{ course.description if course else '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="professor_id">Profesor:</label>
+            <select id="professor_id" name="professor_id" class="form-control" required>
+                <option value="" disabled {% if not course %}selected{% endif %}>Seleccione un profesor</option>
+                {% for professor in professors %}
+                    <option value="{{ professor.id }}" {% if course and course.professor_id == professor.id %}selected{% endif %}>
+                        {{ professor.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">{% if course %}Actualizar{% else %}Guardar{% endif %}</button>
+    </form>
+</div>
+{% endblock %}

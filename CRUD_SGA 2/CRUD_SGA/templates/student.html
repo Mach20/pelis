@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: rgba(0, 77, 64, 0.7);
+        color: white; 
+    }
+    
+    table thead th {
+        color: white; 
+    }
+    
+    .btn-primary {
+        background-color: #206156; 
+        border-color: #b3b4b4;
+        color: white;
+    }
+
+    .btn-warning {
+        background-color: #ffc107; 
+        border-color: #ffc107; 
+        color: black; 
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545; 
+        color: white;
+    }
+</style>
+
+<h2>Gestión de Estudiantes</h2>
+<p>
+    <a href="{{ url_for('new_student') }}" class="btn btn-primary">Nuevo Estudiante</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>
+                    <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('delete_student', id=student.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
